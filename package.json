@@ -8,7 +8,9 @@
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "prettier:check": "prettier --check \"./**/*.{js,ts,json}\"",
+    "prettier:write": "prettier --write \"./**/*.{js,ts,json}\""
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
