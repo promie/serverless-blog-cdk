@@ -1,16 +1,20 @@
-import * as cdk from 'aws-cdk-lib'
+import { aws_lambda_nodejs, Stack, StackProps } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
 
-export class ServerlessBlogCdkStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+export class ServerlessBlogCdkStack extends Stack {
+  constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props)
+    const createBlogPostLambdaName = 'createBlogPostHandler'
+    const createBlogPostLambda = new aws_lambda_nodejs.NodejsFunction(
+      this,
+      createBlogPostLambdaName,
+      {
+        entry: 'lib/blog-post-handler.ts',
+        handler: createBlogPostLambdaName,
+        functionName: createBlogPostLambdaName,
+      },
+    )
 
-    // The code that defines your stack goes here
-
-    // example resource
-    // const queue = new sqs.Queue(this, 'ServerlessBlogCdkQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
+    console.info(createBlogPostLambda)
   }
 }
