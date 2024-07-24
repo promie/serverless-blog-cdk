@@ -1,3 +1,7 @@
+# Install AWS CDK
+npm install -g aws-cdk
+
+# Script to setup project with CDK
 cdk init --language typescript
 
 # ESLint and Prettier packages
