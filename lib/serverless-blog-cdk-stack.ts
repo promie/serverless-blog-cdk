@@ -36,6 +36,14 @@ export class ServerlessBlogCdkStack extends cdk.Stack {
       'POST',
       new LambdaIntegration(createBlogPostFunction),
     )
+
+    const listBlogPostsFunction = this.createLambda(
+      'listBlogPosts',
+      'src/listBlogPosts.ts',
+      blogsTable,
+    )
+    blogsTable.grantReadData(listBlogPostsFunction)
+    blogsResource.addMethod('GET', new LambdaIntegration(listBlogPostsFunction))
   }
 
   createLambda = (name: string, path: string, table: Table) => {
