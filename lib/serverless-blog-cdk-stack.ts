@@ -29,6 +29,7 @@ export class ServerlessBlogCdkStack extends cdk.Stack {
     const createBlogPostFunction = this.createLambda(
       'createBlogPost',
       'src/createBlogPost.ts',
+      blogsTable,
     )
     blogsTable.grantWriteData(createBlogPostFunction)
     blogsResource.addMethod(
@@ -37,11 +38,12 @@ export class ServerlessBlogCdkStack extends cdk.Stack {
     )
   }
 
-  createLambda = (name: string, path: string) => {
+  createLambda = (name: string, path: string, table: Table) => {
     return new NodejsFunction(this, name, {
       functionName: name,
       runtime: Runtime.NODEJS_18_X,
       entry: path,
+      environment: { TABLE_NAME: table.tableName },
     })
   }
 }

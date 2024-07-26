@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "deploy": "export AWS_PROFILE=promie && cdk deploy",
+    "deploy": "cdk deploy",
     "test": "jest",
     "cdk": "cdk",
     "lint": "eslint .",
