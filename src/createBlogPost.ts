@@ -1,6 +1,7 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import { v4 as uuid } from 'uuid'
 import { IBlogPost } from './types'
+import { createBlog } from './services/blogService'
 
 interface ICreateBlogPostRequest {
   title: string
@@ -22,8 +23,16 @@ export const handler = async (
     ...partialBlogPost,
   }
 
-  return {
-    statusCode: 201,
-    body: JSON.stringify(blogPost),
+  try {
+    await createBlog(blogPost)
+    return {
+      statusCode: 201,
+      body: JSON.stringify(blogPost),
+    }
+  } catch (error) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify(error),
+    }
   }
 }
