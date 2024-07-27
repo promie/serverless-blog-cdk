@@ -24,6 +24,7 @@ export class ServerlessBlogCdkStack extends cdk.Stack {
     })
 
     const blogsResource = blogsApi.root.addResource('blogs')
+    const specificBlogResource = blogsResource.addResource('{id}')
 
     // Function
     const createBlogPostFunction = this.createLambda(
@@ -44,6 +45,17 @@ export class ServerlessBlogCdkStack extends cdk.Stack {
     )
     blogsTable.grantReadData(listBlogPostsFunction)
     blogsResource.addMethod('GET', new LambdaIntegration(listBlogPostsFunction))
+
+    const getBlogPostFunction = this.createLambda(
+      'getBlogPost',
+      'src/getBlogPost.ts',
+      blogsTable,
+    )
+    blogsTable.grantReadData(getBlogPostFunction)
+    specificBlogResource.addMethod(
+      'GET',
+      new LambdaIntegration(getBlogPostFunction),
+    )
   }
 
   createLambda = (name: string, path: string, table: Table) => {
