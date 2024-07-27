@@ -1,4 +1,5 @@
 import {
+  GetCommand,
   PutCommand,
   ScanCommand,
   ScanCommandInput,
@@ -27,4 +28,15 @@ const listBlogPosts = async (): Promise<IBlogPost[]> => {
   return Items as IBlogPost[]
 }
 
-export { createBlog, listBlogPosts }
+const getBlogPost = async (id: string) => {
+  const result = await DocumentClient.send(
+    new GetCommand({
+      TableName: tableName,
+      Key: { id },
+    }),
+  )
+
+  return (result.Item as IBlogPost) || null
+}
+
+export { createBlog, listBlogPosts, getBlogPost }
