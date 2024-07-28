@@ -56,6 +56,17 @@ export class ServerlessBlogCdkStack extends cdk.Stack {
       'GET',
       new LambdaIntegration(getBlogPostFunction),
     )
+
+    const deleteBlogPostFunction = this.createLambda(
+      'deleteBlogPost',
+      'src/deleteBlogPost.ts',
+      blogsTable,
+    )
+    blogsTable.grantWriteData(deleteBlogPostFunction)
+    specificBlogResource.addMethod(
+      'DELETE',
+      new LambdaIntegration(deleteBlogPostFunction),
+    )
   }
 
   createLambda = (name: string, path: string, table: Table) => {
