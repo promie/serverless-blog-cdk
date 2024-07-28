@@ -79,7 +79,7 @@ export class ServerlessBlogCdkStack extends cdk.Stack {
 
     // Define the policy for the API Docs function
     const policy = new PolicyStatement({
-      actions: ['api-gateway:GET'],
+      actions: ['apigateway:GET'],
       resources: ['*'],
     })
     apiDocsFunction.role?.addToPrincipalPolicy(policy)
