@@ -2,6 +2,7 @@ import * as cdk from 'aws-cdk-lib'
 import { Cors, LambdaIntegration, RestApi } from 'aws-cdk-lib/aws-apigateway'
 import { AttributeType, Table } from 'aws-cdk-lib/aws-dynamodb'
 import { Runtime } from 'aws-cdk-lib/aws-lambda'
+import { PolicyStatement } from 'aws-cdk-lib/aws-iam'
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs'
 import { Construct } from 'constructs'
 
@@ -67,6 +68,25 @@ export class ServerlessBlogCdkStack extends cdk.Stack {
       'DELETE',
       new LambdaIntegration(deleteBlogPostFunction),
     )
+
+    // Lambda function for API Docs
+    const apiDocsFunction = new NodejsFunction(this, 'apiDocs', {
+      functionName: 'apiDocs',
+      runtime: Runtime.NODEJS_18_X,
+      entry: 'src/apiDocs.ts',
+      environment: { API_ID: blogsApi.restApiId },
+    })
+
+    // Define the policy for the API Docs function
+    const policy = new PolicyStatement({
+      actions: ['api-gateway:GET'],
+      resources: ['*'],
+    })
+    apiDocsFunction.role?.addToPrincipalPolicy(policy)
+
+    // Define the API Docs resource
+    const apiDocsResource = blogsApi.root.addResource('api-docs')
+    apiDocsResource.addMethod('GET', new LambdaIntegration(apiDocsFunction))
   }
 
   createLambda = (name: string, path: string, table: Table) => {
