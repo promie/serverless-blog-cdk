@@ -3,6 +3,7 @@ import {
   PutCommand,
   ScanCommand,
   ScanCommandInput,
+  DeleteCommand,
 } from '@aws-sdk/lib-dynamodb'
 import { DocumentClient } from '../lib/dynamodb'
 import { IBlogPost } from '../types'
@@ -39,4 +40,13 @@ const getBlogPost = async (id: string) => {
   return (result.Item as IBlogPost) || null
 }
 
-export { createBlog, listBlogPosts, getBlogPost }
+const deleteBlogPost = async (id: string) => {
+  await DocumentClient.send(
+    new DeleteCommand({
+      TableName: tableName,
+      Key: { id },
+    }),
+  )
+}
+
+export { createBlog, listBlogPosts, getBlogPost, deleteBlogPost }
