@@ -86,7 +86,11 @@ export class ServerlessBlogCdkStack extends cdk.Stack {
 
     // Define the API Docs resource
     const apiDocsResource = blogsApi.root.addResource('api-docs')
-    apiDocsResource.addMethod('GET', new LambdaIntegration(apiDocsFunction))
+    apiDocsResource.addMethod('GET', new LambdaIntegration(apiDocsFunction), {
+      requestParameters: {
+        'method.request.querystring.ui': true,
+      },
+    })
   }
 
   createLambda = (name: string, path: string, table: Table) => {
