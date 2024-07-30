@@ -1,5 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import { getBlogPost } from './services/blogService'
+import { defaultHeaders } from './utils/headers'
 
 export const handler = async (
   event: APIGatewayProxyEvent,
@@ -20,6 +21,7 @@ export const handler = async (
       return {
         statusCode: 404,
         body: JSON.stringify({ message: 'Blog post not found' }),
+        headers: defaultHeaders,
       }
     }
 
