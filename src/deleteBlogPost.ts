@@ -1,5 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import { deleteBlogPost } from './services/blogService'
+import { defaultHeaders } from './utils/headers'
 
 export const handler = async (
   event: APIGatewayProxyEvent,
@@ -18,6 +19,7 @@ export const handler = async (
     return {
       statusCode: 204,
       body: '',
+      headers: defaultHeaders,
     }
   } catch (error) {
     return {

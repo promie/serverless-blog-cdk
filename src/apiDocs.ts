@@ -1,5 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import { APIGatewayClient, GetExportCommand } from '@aws-sdk/client-api-gateway'
+import { defaultHeaders } from './utils/headers'
 
 export const handler = async (
   event: APIGatewayProxyEvent,
@@ -25,6 +26,7 @@ export const handler = async (
     return {
       statusCode: 200,
       body: response,
+      headers: defaultHeaders,
     }
   }
 

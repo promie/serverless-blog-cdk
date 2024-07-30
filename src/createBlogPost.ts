@@ -2,6 +2,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import { v4 as uuid } from 'uuid'
 import { IBlogPost } from './types'
 import { createBlog } from './services/blogService'
+import { defaultHeaders } from './utils/headers'
 
 interface ICreateBlogPostRequest {
   title: string
@@ -28,6 +29,7 @@ export const handler = async (
     return {
       statusCode: 201,
       body: JSON.stringify(blogPost),
+      headers: defaultHeaders,
     }
   } catch (error) {
     return {
