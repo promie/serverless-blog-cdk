@@ -7,9 +7,10 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "deploy": "cdk deploy",
     "test": "jest",
     "cdk": "cdk",
+    "deploy": "cdk deploy --require-approval=never",
+    "destroy": "cdk destroy --force",
     "lint": "eslint .",
     "prettier:check": "prettier --check \"./**/*.{js,ts,json}\"",
     "prettier:write": "prettier --write \"./**/*.{js,ts,json}\"",
